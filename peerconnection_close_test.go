@@ -25,6 +25,9 @@ func TestPeerConnection_Close(t *testing.T) {
 
 	awaitSetup := make(chan struct{})
 	pcAnswer.OnDataChannel(func(d *DataChannel) {
+		if d.Label() != "data" {
+			return
+		}
 		close(awaitSetup)
 	})
 
