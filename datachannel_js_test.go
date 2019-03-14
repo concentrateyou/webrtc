@@ -120,6 +120,9 @@ func TestDataChannelParamters(t *testing.T) {
 		}
 
 		answerPC.OnDataChannel(func(d *DataChannel) {
+			if d.Label() != "data" {
+				return
+			}
 			// Check if parameters are correctly set
 			assert.False(t, d.Ordered(), "Ordered should be set to false")
 			if assert.NotNil(t, d.MaxRetransmits(), "should not be nil") {
