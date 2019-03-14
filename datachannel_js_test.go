@@ -24,6 +24,8 @@ func TestDataChannel_Send(t *testing.T) {
 	done := make(chan bool)
 
 	answerPC.OnDataChannel(func(d *DataChannel) {
+		// Make sure this is the data channel we were looking for. (Not the one
+		// created in signalPair).
 		if d.Label() != "data" {
 			return
 		}
@@ -120,6 +122,8 @@ func TestDataChannelParamters(t *testing.T) {
 		}
 
 		answerPC.OnDataChannel(func(d *DataChannel) {
+			// Make sure this is the data channel we were looking for. (Not the one
+			// created in signalPair).
 			if d.Label() != "data" {
 				return
 			}
