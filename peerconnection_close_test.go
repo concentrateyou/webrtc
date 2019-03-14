@@ -9,7 +9,7 @@ import (
 	"github.com/pions/transport/test"
 )
 
-// TestPeerConnection_Close is moved to it's on file because the tests
+// TestPeerConnection_Close is moved to it's own file because the tests
 // in rtcpeerconnection_test.go are leaky, making the goroutine report useless.
 
 func TestPeerConnection_Close(t *testing.T) {

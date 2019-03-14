@@ -71,13 +71,13 @@ func (pc *PeerConnection) OnDataChannel(f func(*DataChannel)) {
 		// fix by keeping a mutex-protected list of all DataChannel references as a
 		// property of this PeerConnection, but at the cost of additional overhead.
 		dataChannel := &DataChannel{
-			underlying: args[0],
+			underlying: args[0].Get("channel"),
 		}
 		go f(dataChannel)
 		return js.Undefined()
 	})
 	pc.onDataChannelHandler = &onDataChannelHandler
-	pc.underlying.Set("onsignalingstatechange", onDataChannelHandler)
+	pc.underlying.Set("ondatachannel", onDataChannelHandler)
 }
 
 // OnTrack sets an event handler which is called when remote track
@@ -590,9 +590,13 @@ func dataChannelInitToValue(options *DataChannelInit) js.Value {
 		return js.Undefined()
 	}
 
+	maxPacketLifeTime := uint16PointerToValue(options.MaxPacketLifeTime)
 	return js.ValueOf(map[string]interface{}{
 		"ordered":           boolPointerToValue(options.Ordered),
-		"maxPacketLifeTime": uint16PointerToValue(options.MaxPacketLifeTime),
+		"maxPacketLifeTime": maxPacketLifeTime,
+		// See https://bugs.chromium.org/p/chromium/issues/detail?id=696681
+		// Chrome calls this "maxRetransmitTime"
+		"maxRetransmitTime": maxPacketLifeTime,
 		"maxRetransmits":    uint16PointerToValue(options.MaxRetransmits),
 		"protocol":          stringPointerToValue(options.Protocol),
 		"negotiated":        boolPointerToValue(options.Negotiated),

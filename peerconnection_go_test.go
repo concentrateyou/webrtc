@@ -19,6 +19,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// newPair creates two new peer connections (an offerer and an answerer) using
+// the api.
 func (api *API) newPair() (pcOffer *PeerConnection, pcAnswer *PeerConnection, err error) {
 	pca, err := api.NewPeerConnection(Configuration{})
 	if err != nil {

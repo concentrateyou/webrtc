@@ -17,7 +17,7 @@ func signalPair(pcOffer *PeerConnection, pcAnswer *PeerConnection) (err error) {
 
 	// Note(albrow): We need to create a data channel in order to trigger ICE
 	// candidate gathering in the background.
-	if _, err := pcOffer.CreateDataChannel("data", nil); err != nil {
+	if _, err := pcOffer.CreateDataChannel("initial_data_channel", nil); err != nil {
 		return err
 	}
 

@@ -10,6 +10,22 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// newPair creates two new peer connections (an offerer and an answerer)
+// *without* using an api (i.e. using the default settings).
+func newPair() (pcOffer *PeerConnection, pcAnswer *PeerConnection, err error) {
+	pca, err := NewPeerConnection(Configuration{})
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pcb, err := NewPeerConnection(Configuration{})
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return pca, pcb, nil
+}
+
 func TestNew(t *testing.T) {
 	pc, err := NewPeerConnection(Configuration{
 		ICEServers: []ICEServer{
